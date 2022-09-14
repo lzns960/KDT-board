@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <%- include('./partials/head.ejs') %>
+</head>
+<body>
+  <%- include('./partials/nav.ejs') %>
+  
+  <div class="title">
+    <h1>Board</h1>
+    <h2>Total <%= articleCounts %></h2>
+    <div class="btn green">
+        <a href="board/write">New Post</a>
+    </div>
+  </div>
+  
+    <ul>
+      <% if(articleCounts > 0) { %>
+        <% for (let i = 0; i < articleCounts; i++) { %>
+          <li>
+            <p>title: <%= ARTICLE[i].title %></p>
+            <p>content: <%= ARTICLE[i].content %></p>
+            <div class="btn green">
+                <a href= '/board/modify/<%= ARTICLE[i].title %>' >수정</a>
+            </div>
+            <div class="btn green">
+                <a href="#" onclick="deleteBoard('<%= ARTICLE[i].title %>');">삭제</a>
+            </div>
+          </li>
+        <% } %>
+      <% } else { %>
+        <li>글 정보가 없습니다.</li>
+      <% } %>
+    </ul>
+  
+  <script>
+    function deleteBoard(title) {
+      fetch(`http://localhost:4000/board/${title}`,{
+        method: 'delete',
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }).then((res) => {
+        // 새로고침을 프론트에서 해준다. 
+        location.href = '/board';
+      })
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</body>
+</html>
