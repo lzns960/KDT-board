@@ -1,0 +1,13 @@
+<script>
+  function deleteArticle(title) {
+    fetch(`board/delete/title/${title}`, {
+      method: 'delete',
+      headers: {
+        'Content-type': 'application/json'
+      },
+    }).then((res) => {
+      // 새로고침을 프론트에서 해준다. 
+      location.href = '/board';
+    })
+  }
+</script>
